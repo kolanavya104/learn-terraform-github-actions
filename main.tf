@@ -48,7 +48,7 @@ resource "aws_instance" "web" {
               apt-get update
               apt-get install -y apache2
               sed -i -e 's/80/8080/' /etc/apache2/ports.conf
-              wget -O /var/www/html/index.html https://raw.githubusercontent.com/kolanavya104/learn-terraform-github-actions/main/index.html
+              echo "Hello World" > /var/www/html/index.html
               systemctl restart apache2
               EOF
 }
