@@ -19,7 +19,6 @@ provider "aws" {
   region = "us-west-2"
 }
 
-
 resource "random_pet" "sg" {}
 
 data "aws_ami" "ubuntu" {
@@ -42,9 +41,12 @@ resource "aws_instance" "web" {
   ami                    = data.aws_ami.ubuntu.id
   instance_type          = "t2.micro"
   vpc_security_group_ids = [aws_security_group.web-sg.id]
+  tags = {
+    Name = "Git"
+  }
+
 
   user_data = <<-EOF
-
               #!/bin/bash
               apt-get update
               apt-get install -y apache2
@@ -62,6 +64,7 @@ resource "aws_security_group" "web-sg" {
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
+  // connectivity to ubuntu mirrors is required to run `apt-get update` and `apt-get install apache2`
   egress {
     from_port   = 0
     to_port     = 0
@@ -69,9 +72,6 @@ resource "aws_security_group" "web-sg" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 }
-
-
-
 
 output "web-address" {
   value = "${aws_instance.web.public_dns}:8080"
