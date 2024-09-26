@@ -42,7 +42,6 @@ resource "aws_instance" "web" {
   instance_type          = "t2.micro"
   vpc_security_group_ids = [aws_security_group.web-sg.id]
 
- 
   user_data = <<-EOF
               #!/bin/bash
               apt-get update
@@ -55,7 +54,6 @@ resource "aws_instance" "web" {
               systemctl restart apache2
               EOF
 }
-}
 
 resource "aws_security_group" "web-sg" {
   name = "${random_pet.sg.id}-sg"
@@ -65,7 +63,6 @@ resource "aws_security_group" "web-sg" {
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
-  // connectivity to ubuntu mirrors is required to run `apt-get update` and `apt-get install apache2`
   egress {
     from_port   = 0
     to_port     = 0
