@@ -16,8 +16,13 @@ terraform {
 }
 
 provider "aws" {
-  region = "us-east-1"
+  region = "us-west-2"
+  
+  tags = {
+    Name = "Git"
+  }
 }
+
 
 resource "random_pet" "sg" {}
 
