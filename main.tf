@@ -17,10 +17,6 @@ terraform {
 
 provider "aws" {
   region = "us-west-2"
-  
-  tags = {
-    Name = "Git"
-  }
 }
 
 
